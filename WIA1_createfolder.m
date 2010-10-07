@@ -12,6 +12,8 @@ clear all
 close all
 clc
 
+%Will: these varaibles need to be changed so they're not hard-coded but
+%Will: actually inputs!
 rootpath = 'C:\Documents and Settings\Xiang Mao\My Documents\MATLAB\'; %the path where images to be analyzed located
 ImF = dir(fullfile([rootpath],'s*.jpg')); % the common part from titles of these images
 n_ImF = size(ImF, 1);
@@ -25,9 +27,9 @@ for rr = 1:n_ImF
         image_loaded = strcat(imagepath, filename);
         filename = strrep(filename,'JPG','jpg');
         filename_s  = filename(1:(find(filename(:)=='.')-1));
-        savepath  = [imagepath '\temporary save ',date,'\'];
+        savepath  = [imagepath '\temporary save ',date,'\']; %Will: use pathsep or fullfile!
         mName = char(mfilename) % the current running m file
-        plotpath = [savepath filename '\'];
+        plotpath = [savepath filename '\']; %Will: use pathsep!
         mkdir(plotpath);
         txtname = [mName,'_',date,'.txt']; % only save combined result, save to savepath
         infoldertxt = [filename_s '.txt']; % save all information, save to specified folder for this image
@@ -48,12 +50,12 @@ for rr = 1:n_ImF
             xc(2)=max(x);
             ROI = Y(yc(1):yc(2),xc(1):xc(2),:);
             
-            clear x, clear y;
+            clear x, clear y; %Will: shouldn't use clear!
             figure(1),clf,imshow(ROI);impixelinfo;title([filename '\_ROI']);
             [M,N,O] = size(ROI);
             
             %%% get center region position
-            clear ct
+            clear ct %Will: shouldn't use clear!
             ct = [round((yc(2)-yc(1))/2) round((xc(2)-xc(1))/2)];
             cty = [ct(1)-round(M*0.10) ct(1)+round(M*0.10)];
             ctx = [ct(2)-round(N*0.10) ct(2)+round(N*0.10)];
@@ -79,8 +81,8 @@ for rr = 1:n_ImF
         polygon = roipoly(ROI); %%% a logical mask
         
         %%% save workspace
-        clear Y;
-        save([plotpath filename_s]);
+        clear Y; %Will: shouldn't use clear!
+        save([plotpath filename_s]); %Will: use fullfile instead!
         close all
         
     end
