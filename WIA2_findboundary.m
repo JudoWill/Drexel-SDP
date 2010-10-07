@@ -13,6 +13,7 @@ close all
 clc
 tic
 
+%Will:Need to make these varaibles and not hard-coded
 ROOTpath = 'C:\Documents and Settings\Xiang Mao\My Documents\MATLAB\temporary save 04-Apr-2010\'; % where the folders for each image been located
 folders = dir(fullfile([ROOTpath],'*.jpg'));
 n_folders = length(folders);
@@ -20,16 +21,24 @@ n_folders = length(folders);
 %%
 
 for rr = 1:n_folders
+    %Will: should NEVER use clear like this ... it makes debugging
+    %Will: IMPOSSIBLE
     clear matname, clear matpath,
     clear ROI*, clear BW*, clear v*, clear polygon*, clear Y*,
     clear center*, clear perim*,
     
     matname = strrep(folders(rr).name, '.jpg','');
-    matpath = [ROOTpath folders(rr).name '\'];
+    matpath = [ROOTpath folders(rr).name '\']; 
+    %Will: '\' assumes Windows PC's not always true!
+    %Will: "fullfile" or "pathsep" is a much safer alternative
     
     if folders(rr).isdir
         
         load([matpath matname]); % load the '.mat' file
+        %Will: use fullpath because its safer!
+        %Will: also should probably load things in as a struct to unpack
+        %Will: them.  There's no way to see what variables this has
+        %Will: introduced!
         
         mName = char(mfilename);
         txtname = [mName,'_',date,'.txt'];
@@ -38,6 +47,7 @@ for rr = 1:n_folders
         plotpath = matpath;
         
         ROI_loaded = strcat(matpath, filename_s, '_ROI.jpg');
+        %Will: use fullpath because its safer!
         
         fid2 = fopen(fullfile(plotpath,infoldertxt),'w'); % detailed infomation.
         %%%%% infoldertxt was saved in '.mat' file from previous step.
@@ -113,6 +123,8 @@ for rr = 1:n_folders
                 close all
                 
                 eval(['layer = ','ROI_',channelname,';']);
+                %Will: EVAL is the devil's minion, it should never be used
+                %Will: like this!
                 % % % %     figure(20),imshow(layer,[]);impixelinfo; title(channelname);
                 
                 if not(strcmp('reduc', channelname))
@@ -167,7 +179,8 @@ for rr = 1:n_folders
                     eval(['center_',channelname, '_dev','= center_dev;']);
                     eval(['max_',channelname, '= ma;']);
                     eval(['min_',channelname, '= mi;']);
-                    
+                    %Will: EVAL is the devil's minion, it should never be used
+                    %Will: like this!
                     
                 else   %%%% this is skin model (= pixel color compare)
                     
@@ -233,6 +246,8 @@ for rr = 1:n_folders
                         eval(['center_',channelname, '_dev','= ','NaN;']);
                         eval(['max_',channelname, '= ','NaN;']);
                         eval(['min_',channelname, '= ','NaN;']);
+                        %Will: EVAL is the devil's minion, it should never be used
+                        %Will: like this!
                         
                         skinmodel_marker = skinmodel_marker + 1;
                         
@@ -244,6 +259,8 @@ for rr = 1:n_folders
                 
                 if strcmp(channelname,'reduc');
                     v = eval(['v_',channelname]);
+                    %Will: EVAL is the devil's minion, it should never be used
+                    %Will: like this!
                 end
                 
                 lv = size(v,1); % perimeter.
@@ -263,6 +280,7 @@ for rr = 1:n_folders
                 
                 area(jj) = sum(sum(Z)); % area for single channel
                 perimlength(jj) = lv;
+                %Will: These can easily be pre-allocated!
                 
                 if not(strcmp('reduc', channelname))
                     fprintf(fid2,'%s\t%s\t%g\t%g\t%8.3g\t%8.3g\t%8.3g\t%8.3g\t%8.3g\t%8.3g\t\n',...
@@ -335,8 +353,11 @@ for rr = 1:n_folders
         clear perim_polygon;
         clear a, clear b;
         clear Z, clear BW,clear BW_combine2;
+        %Will: Shouldn't clear variables like this it makes debugging
+        %Will: difficult!
         
         save([plotpath filename_s '_allv']);
+        %Will: Should use fullfile!
         
     end
     
