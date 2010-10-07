@@ -1,20 +1,21 @@
 clear all % calculation of wound area using boundary file...
 close all
 
+%Will: No hard-coding of paths!
 basepath='J:\DATA\McGuire\Traced';
-filepath='\';
+filepath='\'; %Will: use pathsep instead!
 
-files = dir([basepath filepath]);
+files = dir([basepath filepath]); %Will:use fullfile!
 filenames = char(files.name);
 filenames = filenames(3:size(filenames,1),:);
 
 q = 1;
-while q <= size(filenames,1)
+while q <= size(filenames,1) %Will: size(filenames,1) never changes, why do you use a while-loop?
     filename1 = filenames(q ,:);
     filename2 = filename1(filename1 ~= ' ');
     filename=filename2; % Use a file other than the most recent file in 'filepath'
     
-    [Y,Ymap]= imread([basepath filepath filename]);
+    [Y,Ymap]= imread([basepath filepath filename]); %Will: use fullfile!
     
     
     imshow(Y),%('Original Image');
@@ -116,7 +117,7 @@ while q <= size(filenames,1)
     title(['Wound Area = ' num2str(areamm2)],'FontSize',14)
     zoom out
     
-    fid = fopen([basepath '181421.txt'],'a');
+    fid = fopen([basepath '181421.txt'],'a'); %Will: use fullfile!
     fprintf(fid,'%g\t%g\t%g\t%g\t%s\t\n',areamm2,s,pixelpermm,q,filename);
     fclose(fid)
     
