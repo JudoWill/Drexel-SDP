@@ -2,8 +2,8 @@
 %   This program opens images in a folder one by one, creates a folder
 %   for each image and allows user to choose ROI and polygon around wound
 %   boundary. The croped ROI image and polygon position, as well
-%   other infomation, will be saved in the corresponding folder. 
-%   
+%   other infomation, will be saved in the corresponding folder.
+%
 %   ---Xiang Mao, modified on Apr 4th, 2010---
 %%%%%%%%%%%%%%
 
@@ -14,10 +14,10 @@ clc
 
 rootpath = 'C:\Documents and Settings\Xiang Mao\My Documents\MATLAB\'; %the path where images to be analyzed located
 ImF = dir(fullfile([rootpath],'s*.jpg')); % the common part from titles of these images
-n_ImF = size(ImF, 1); 
+n_ImF = size(ImF, 1);
 
 for rr = 1:n_ImF
-    clear polygon*, clear Y*, clear ROI*;    
+    clear polygon*, clear Y*, clear ROI*;
     imagepath = rootpath;
     filename = ImF(rr).name;
     
@@ -31,7 +31,7 @@ for rr = 1:n_ImF
         mkdir(plotpath);
         txtname = [mName,'_',date,'.txt']; % only save combined result, save to savepath
         infoldertxt = [filename_s '.txt']; % save all information, save to specified folder for this image
-
+        
         Y = imread(image_loaded);
         figure(1),imshow(Y); impixelinfo; title(filename);
         
@@ -47,11 +47,11 @@ for rr = 1:n_ImF
             xc(1)=min(x);
             xc(2)=max(x);
             ROI = Y(yc(1):yc(2),xc(1):xc(2),:);
-
+            
             clear x, clear y;
             figure(1),clf,imshow(ROI);impixelinfo;title([filename '\_ROI']);
             [M,N,O] = size(ROI);
-
+            
             %%% get center region position
             clear ct
             ct = [round((yc(2)-yc(1))/2) round((xc(2)-xc(1))/2)];
@@ -62,12 +62,12 @@ for rr = 1:n_ImF
             hold on,
             plot(ctx(1):ctx(1),cty(1):cty(2),'g.',ctx(2):ctx(2),cty(1):cty(2),'g.',...
                 ctx(1):ctx(2),cty(1):cty(1),'g.',ctx(1):ctx(2),cty(2):cty(2),'g.');
-
+            
             disp('If satisfied with the centerbox postion, hit any letter follow by "enter" to continue');
             s_cr = input('Otherwise, hit "enter" if you want to redo this step : \n','s');
-
+            
             imwrite(ROI, [ plotpath filename_s '_ROI.jpg']);
-
+            
             close all
             
         end
@@ -82,7 +82,7 @@ for rr = 1:n_ImF
         clear Y;
         save([plotpath filename_s]);
         close all
-
+        
     end
     
 end
