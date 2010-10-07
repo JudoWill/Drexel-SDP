@@ -6,10 +6,10 @@ CODING TODO
 In no particular order:
 
 - Reformat the code so its a set of functions instead of scripts
-  - Probably should get rid of the "folder" idea since it makes it difficult to track information through the function.
-  - Probably should create a "main" function which calls the subfunctions and handles the data moving back and forth.
+	- Probably should get rid of the "folder" idea since it makes it difficult to track information through the function.
+	- Probably should create a "main" function which calls the subfunctions and handles the data moving back and forth.
 - Clean up code!
-  - Remove all EVAL statements.
+	- Remove all EVAL statements.
   - Remove all CLEAR statements.
   - Change all LOAD functions to load into a `struct` instead of loading into the local scope ... this helps make it easy to see where information is comming from.
   - Change any path-related function to use `fullfile` instead of manually constructing the file-path.
