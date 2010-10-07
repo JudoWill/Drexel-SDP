@@ -11,8 +11,8 @@ close all
 clc
 
 
-%Need to change these varaiables so they're not hard-coded but inputs!
-%%
+%Will:Need to change these varaiables so they're not hard-coded but inputs!
+%%Will:
 ROOTPATH = 'C:\Documents and Settings\Xiang Mao\My Documents\MATLAB\temporary save 04-Apr-2010\'; % the folder where subfolder for each image been saved
 subgroup = 's*.jpg';
 sFolders = dir(fullfile([ROOTPATH],subgroup));
@@ -25,7 +25,7 @@ mkdir(newPATH);
 rulertxt = ['ruler_' date '.txt'];  % the text file for save data
 fid_w = fopen([newPATH rulertxt],'w');
 fprintf(fid_w,'%s\t\n','ImageName/Pixel Per Centimeter/x(1)/x(2)/y(1)/y(2)/Orignal Ruler unit');
-%%
+%%Will:
 
 for ii = 1:nff
     ii
@@ -48,9 +48,9 @@ for ii = 1:nff
     
     ruler = '';
     
-    %maybe use an OCR library to infer this from the image.  Something that
-    %would work is here: 
-    %http://www.mathworks.com/matlabcentral/fileexchange/18169-optical-character-recognition-ocr
+    %Will:maybe use an OCR library to infer this from the image.  Something that
+    %Will:would work is here: 
+    %Will:http://www.mathworks.com/matlabcentral/fileexchange/18169-optical-character-recognition-ocr
     while isempty(ruler)
         ut = input('Is the unit in inches? (enter "inch" if yes, otherwise enter "cm")\n','s');
         if strcmp(ut,'inch')
@@ -62,8 +62,8 @@ for ii = 1:nff
         end
     end
     
-    %probably easier to save with a .mat file instead of printing and
-    %reading from text!
+    %Will:probably easier to save with a .mat file instead of printing and
+    %Will:reading from text!
     fprintf(fid_w,'%s\t%g\t%g\t%g\t%g\t%g\t%s\t\n',iName, ppc, xr(1),xr(2),yr(1),yr(2),ruler);
     close all
 end
