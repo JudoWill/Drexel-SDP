@@ -21,3 +21,5 @@ dist
 *.tmp*
 *.db
 *~lock*
+*~
+*.asv
